@@ -189,7 +189,7 @@ def qa_agent(open_api_key, memory, upload_file, question):
         llm=model,
         retriever=retriever,
         memory=memory,
-        #chain_type="map-reduce"
+        chain_type="map_reduce"
     )
     response = qa.invoke({"question": question})
     return response

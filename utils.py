@@ -136,7 +136,7 @@ def _load_uploaded_documents(upload_file):
     raise ValueError("暂不支持该文件类型，请上传 pdf、txt、md、csv、json、docx 或 xlsx 文件。")
 
 
-def qa_agent(open_api_key, memory, upload_file, question):
+def qa_agent(open_api_key,qwen_api_key, memory, upload_file, question):
     """基于上传文件进行检索增强问答。
 
     参数说明：
@@ -174,7 +174,7 @@ def qa_agent(open_api_key, memory, upload_file, question):
     # 用户提问时，retriever 会从这些切片里找出最相关的内容交给模型。
     embeddings_model = OpenAIEmbeddings(
         model="text-embedding-v4",
-        api_key="sk-1ef2d61d64764c6292defdadfe65d500",
+        api_key=qwen_api_key,
         base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
         dimensions=1024,
         check_embedding_ctx_length=False,

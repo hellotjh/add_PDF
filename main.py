@@ -9,6 +9,8 @@ st.title("AI智能文件问答工具")
 with st.sidebar:
     openai_api_key = st.text_input("请输入OpenAI API密钥",type="password")
     st.markdown("[获取OpenAI API key](https://xcode.best)")
+    qwen_api_key = st.text_input("请输入embedding API密钥",type="password")
+    st.markdown("[获取Qwen API key](https://bailian.console.aliyun.com/)")
 
 # Streamlit 每次交互都会重新执行脚本。
 # 把 memory 放到 session_state 里，可以让同一个用户会话持续保留历史对话。
@@ -34,12 +36,15 @@ run = st.button("运行")
 if question and not openai_api_key and run:
     st.info("请输入你的OpenAI-API-Key！")
     st.stop()
+if question and not qwen_api_key and run:
+    st.info("请输入你的Embedding-API-Key！")
+    st.stop()
 
 # 有上传文件时：先解析文件，再检索文件内容回答问题。
-if uploaded_file and question and openai_api_key and run:
+if uploaded_file and question and openai_api_key and run and qwen_api_key:
     try:
         with st.spinner("AI正在思考中，请稍等。。。"):
-            response = qa_agent(openai_api_key, st.session_state["memory"], uploaded_file, question)
+            response = qa_agent(openai_api_key,qwen_api_key, st.session_state["memory"], uploaded_file, question)
             st.write("### 答案")
             st.write(response["answer"])
             # qa_agent 内部的 qa.invoke 已经把本轮问答写入 memory。
